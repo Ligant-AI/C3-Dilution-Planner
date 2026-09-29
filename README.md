@@ -5,8 +5,8 @@ ordered set of them, from a stated stock — including the intermediate dilution
 a step needs when the transfer it asks for is too small to pipette.
 
 A free bench tool from [Ligant](https://ligant.ai), part of Ligant Bench Tools.
-It runs entirely in your browser. The one third party it loads is Cloudflare Web
-Analytics, which counts visits and reads nothing you enter.
+It runs entirely in your browser. It loads Cloudflare Web Analytics, which counts
+visits and reads nothing you enter, and Google Analytics only if you allow it.
 
 **Use it at [benchtools.ligant.ai/dilution-planner/](https://benchtools.ligant.ai/dilution-planner/)**,
 or run it on your own machine — see [Running it](#running-it).
@@ -123,23 +123,39 @@ Same inputs, same outputs: nothing reads a clock or a random source.
 ## Privacy
 
 Everything is computed in your browser. Nothing you enter is transmitted, and
-there is no account. The typefaces are self-hosted and the source contains no
-network call of any kind.
+there is no account. The typefaces are self-hosted, and the tool's own source
+contains no network call of any kind. The one script that can make a request is
+the suite's shared footer (`@ligant/bench-chrome`), which loads Google Analytics
+only after you click Allow in its privacy banner.
 
-**The tool stores nothing in your browser.** It sets no cookie, reads none, and
-keeps no site data of any kind: a reload starts an empty page rather than
+**The tool stores nothing you enter.** It sets no cookie of its own, reads none,
+and keeps none of your declarations: a reload starts an empty page rather than
 returning declarations made under conditions that may since have changed. The
+only things the page can store are your answer to the privacy banner (one
+`localStorage` entry, `ligant_privacy_choice`) and, only if you click Allow, the
+two Google Analytics cookies. The
 hosted page shares its domain with other Ligant sites, and cookies they set may
 be present in your browser there; this tool neither sets nor reads them.
 
-**One third-party script runs on the hosted page: Cloudflare Web Analytics**,
+**Cloudflare Web Analytics runs on the hosted page for every visitor**,
 added by the host to count visits. It records which page was opened, how often,
 roughly where from, and how quickly it loaded. By Cloudflare's documentation it
 uses no cookie or `localStorage` and does not fingerprint by IP or User-Agent. It
 reports to the site's own `/cdn-cgi/rum`. The page's content security policy —
-in `index.html` and in `public/_headers` — allows that one script and that one
-endpoint and nothing else outside the page's own address, so it is there to
-read. A copy you run yourself never loads it.
+in `index.html` and in `public/_headers` — allows that script and endpoint, and
+the Google Analytics hosts below, and nothing else outside the page's own
+address, so it is there to read. A copy you run yourself never loads it.
+
+**Google Analytics runs only if you allow it.** On a first visit the shared
+footer shows a banner. Until you click Allow, the page makes no request to
+Google and sets no cookie. If you allow it, Google Analytics (`G-9V1GYE3KRX`)
+sets two host-only cookies and records which pages you visit, with the page
+address sent without any query string or fragment. It never receives anything
+you type: the suite's release check types a marker into every field, clicks
+Allow, and fails if the marker appears in any request. The content security
+policy allows exactly the Google hosts that needs. "Privacy choices" in the
+footer reopens the banner; withdrawing deletes the cookies. See the
+[Privacy Policy](https://ligant.ai/privacy#google-analytics).
 
 You can confirm all of this in your browser's developer tools: the Network tab
 shows every request the page makes, and the Application tab shows that it keeps
@@ -189,7 +205,7 @@ It plans pipetted preparation only: diluent added to a mark is out of scope.
 
 ## How to cite
 
-> Modi, A.B. (2026). Dilution Planner (v1.1.1) [Computer software].
+> Modi, A.B. (2026). Dilution Planner (v1.1.2) [Computer software].
 > Ligant AI Incorporated. benchtools.ligant.ai/dilution-planner/
 
 The footer of the tool carries this same line with a one-click copy button,
