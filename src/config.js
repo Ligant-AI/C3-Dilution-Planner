@@ -17,6 +17,8 @@ export const CONFIG = Object.freeze({
   suiteLabel: 'Bench Tools',
   repositoryUrl: 'https://github.com/Ligant-AI/C3-Dilution-Planner',
   repositoryLabel: 'github.com/Ligant-AI/C3-Dilution-Planner',
+  // The footer's Privacy Policy link: the one standard statement across the suite.
+  privacyUrl: 'https://ligant.ai/privacy',
   contactEmail: 'hello@ligant.ai',
   address: ['3675 Market Street', 'Suite 200', 'Philadelphia PA 19104'],
   // The DOI is minted at release; until then the citation carries no DOI rather

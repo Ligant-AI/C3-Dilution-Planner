@@ -30,12 +30,9 @@ export function renderFooter() {
   return `
     <div class="footer-grid">
       <div class="footer-prose">
-        <p>Your data stays in your browser. Everything you enter into this tool is calculated on your own device and never sent anywhere in this build, verified statically and in a real browser against the build. <strong>Not yet verified at this address:</strong> the no-transmission acceptance test is unrun here, and only it can rule out a request inserted after the build. We do not see it, store it, or have any way to retrieve it. Closing the page ends it.</p>
-        <p>There is no account and no tracking of you. No login, no sign up. One script from outside this page runs on it, and it is named in the next paragraph; no other third-party code of any kind runs here.</p>
-        <p>We do count visits, with Cloudflare Web Analytics, a small script from our hosting provider. It records which page was opened, how often, roughly where in the world from, and how quickly the page loaded. It sets no cookie, stores nothing in your browser, does not fingerprint you, and does not read what you type into the tool. Because we collect nothing about who you are, this is the only signal we have about whether these tools are useful and which one to build next.</p>
+        <p>Ligant Bench Tools are free and open source under Apache 2.0, for research and educational use. <strong>Privacy.</strong> Everything you enter into this tool stays on your computer. Calculations run entirely in your browser, and your inputs are never transmitted, stored, or logged. We use Cloudflare Web Analytics to count visits and measure how quickly this page loads, so we can see which tools are used and improve them. It sets no cookie, does not identify you, and never reads what you type. <a href="${esc(CONFIG.privacyUrl)}" target="_blank" rel="noopener noreferrer">Privacy Policy</a></p>
         <p>Every figure on this page comes from code you can read, download or run yourself, at ${repo}. Clone it and <code>npm run dev</code> for a local copy.</p>
         <p>These tools are standalone calculators. Ligant's enterprise platform adds reference databases, connected agentic workflows, on-premise language models, and full GxP validation. If your lab needs that, please email us ${mail}.</p>
-        <p>Ligant Bench Tools are free and open source, under the licence below.</p>
       </div>
       <address class="footer-address">
         <span class="eyebrow">${esc(CONFIG.legalEntity)}</span>
