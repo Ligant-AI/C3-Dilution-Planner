@@ -30,6 +30,9 @@
 // object no longer cite a development document by path. No number changes.
 // 1.1.1 (24 September 2026), PATCH: page text only — "and no cookies" came off
 // the footer; the domain carries cookies from other Ligant sites.
-export const ENGINE_VERSION = '1.1.1';
+// 1.1.2 (29 September 2026), PATCH: page text and a dependency only. The suite
+// footer (@ligant/bench-chrome 1.1.0) asks before Google Analytics loads, and
+// the CSP allows the Google hosts it needs. No number and no object changes.
+export const ENGINE_VERSION = '1.1.2';
 export const URS_VERSION = '0.4.2';
 export const TOOL_ID = 'C3';
