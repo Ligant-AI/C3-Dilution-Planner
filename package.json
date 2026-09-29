@@ -15,5 +15,8 @@
   },
   "engines": {
     "node": ">=22"
+  },
+  "dependencies": {
+    "@ligant/bench-chrome": "file:vendor/ligant-bench-chrome-1.0.0.tgz"
   }
 }

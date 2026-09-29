@@ -9,7 +9,8 @@ import { renderDeclarations, renderPlanRegion, renderDerivation } from './render
 import { renderBenchSheet } from './sheet.js';
 import { renderPageContent } from './page-content.js';
 import { parseSharedObject } from '../import/shared-import.js';
-import { markDataUri } from './mark.js';
+import '@ligant/bench-chrome/chrome.css';
+import { bindCopy, markDataUri } from '@ligant/bench-chrome';
 import { renderHeader, renderFooter, renderDisclaimer, renderColophon } from './chrome.js';
 
 const $ = (id) => document.getElementById(id);
@@ -226,19 +227,7 @@ function init() {
   $('disclaimer').innerHTML = renderDisclaimer();
   $('colophon').innerHTML = renderColophon();
   $('favicon').href = markDataUri();
-  $('copy-citation').addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText($('citation-text').textContent);
-      $('copy-citation').textContent = 'Copied';
-      setTimeout(() => { $('copy-citation').textContent = 'Copy'; }, 2000);
-    } catch {
-      const r = document.createRange();
-      r.selectNodeContents($('citation-text'));
-      const sel = getSelection();
-      sel.removeAllRanges();
-      sel.addRange(r);
-    }
-  });
+  bindCopy($('site-footer'));
   $('page-content-body').innerHTML = renderPageContent(CONFIG);
 
   fillUnits($('stock-unit'), CONCENTRATION_UNITS, 'µg/mL', { unselected: true });

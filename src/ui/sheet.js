@@ -3,7 +3,7 @@
 // are carried by position and presence (a FLAG line inside the vessel's row; a
 // double-ruled "withheld" box in the plan's position), never by colour.
 import { escapeHtml as esc } from './page-content.js';
-import { markSvg } from './mark.js';
+import { markSvg } from '@ligant/bench-chrome';
 import { basisSentence, capabilitySentence, diluentSentence } from '../engine/format.js';
 
 const vq = (q) => (q ? `<span class="num">${esc(q.display)}</span> ${esc(q.unit)}` : '—');
