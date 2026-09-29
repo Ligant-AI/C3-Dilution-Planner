@@ -150,8 +150,8 @@ nothing.
 **What you need:** Node 22 or newer, and npm.
 
 ```sh
-git clone https://github.com/abmodi-ai/Ligant.ai-Dilution-Planner.git
-cd Ligant.ai-Dilution-Planner
+git clone https://github.com/Ligant-AI/C3-Dilution-Planner.git
+cd C3-Dilution-Planner
 npm install      # development tooling only; the page itself has no runtime dependencies
 npm run dev      # then open http://localhost:5173/
 ```

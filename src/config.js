@@ -15,8 +15,8 @@ export const CONFIG = Object.freeze({
   // on the shipped siblings.
   homeUrl: 'https://ligant.ai/',
   suiteLabel: 'Bench Tools',
-  repositoryUrl: 'https://github.com/abmodi-ai/Ligant.ai-Dilution-Planner',
-  repositoryLabel: 'github.com/abmodi-ai/Ligant.ai-Dilution-Planner',
+  repositoryUrl: 'https://github.com/Ligant-AI/C3-Dilution-Planner',
+  repositoryLabel: 'github.com/Ligant-AI/C3-Dilution-Planner',
   contactEmail: 'hello@ligant.ai',
   address: ['3675 Market Street', 'Suite 200', 'Philadelphia PA 19104'],
   // The DOI is minted at release; until then the citation carries no DOI rather
@@ -31,6 +31,7 @@ export const CONFIG = Object.freeze({
     { label: 'Molarity', slug: 'molarity-converter' },
     { label: 'Antigen density', slug: 'antigen-density-calculator' },
     { label: 'Dilution', slug: 'dilution-planner' },
+    { label: 'Reconstitution', slug: 'reconstitution' },
   ],
   // The one-line summary under the title, and the paragraph that follows it.
   tagline: 'Plans the volumes to combine to reach a stated target concentration, or an ordered set of them, from a stated stock, including any single intermediate dilution a step needs to be pipettable. Every value is computed deterministically by arithmetic you can read. No model and no inference is applied to any reported number.',
