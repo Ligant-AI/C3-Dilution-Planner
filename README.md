@@ -192,6 +192,7 @@ serve the source folder directly (`npm run serve`).
 | `src/tokens.css` | The design tokens shared across Ligant Bench Tools |
 | `src/config.js` | Title, publisher, repository and citation — one string each |
 | `CITATION.cff` | Citation metadata for GitHub and Zenodo |
+| `REGISTER-AUDIT-TRAIL.md` | The process history behind the threshold register rows, kept off the page |
 | `fonts/` | Self-hosted Inter and IBM Plex Mono, with their SIL Open Font Licence texts |
 | `public/` | Files served as they are: the response headers and the licence |
 
@@ -205,7 +206,7 @@ It plans pipetted preparation only: diluent added to a mark is out of scope.
 
 ## How to cite
 
-> Modi, A.B. (2026). Dilution Planner (v1.1.2) [Computer software].
+> Modi, A.B. (2026). Dilution Planner (v1.2.0) [Computer software].
 > Ligant AI Incorporated. benchtools.ligant.ai/dilution-planner/
 
 The footer of the tool carries this same line with a one-click copy button,

@@ -33,6 +33,11 @@
 // 1.1.2 (29 September 2026), PATCH: page text and a dependency only. The suite
 // footer (@ligant/bench-chrome 1.1.0) asks before Google Analytics loads, and
 // the CSP allows the Google hosts it needs. No number and no object changes.
-export const ENGINE_VERSION = '1.1.2';
+// 1.2.0 (8 October 2026), MINOR: text in the result object only. The
+// intermediate-series register row drops its process note and the round-trip
+// row's basis drops an internal reference; both are kept in
+// REGISTER-AUDIT-TRAIL.md. The citation footnote states why references are
+// text without a false privacy claim. No number changes.
+export const ENGINE_VERSION = '1.2.0';
 export const URS_VERSION = '0.4.2';
 export const TOOL_ID = 'C3';
