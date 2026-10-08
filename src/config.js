@@ -7,7 +7,7 @@ export const CONFIG = Object.freeze({
   productLine: 'Ligant Bench Tools',
   publisher: 'Ligant',
   legalEntity: 'Ligant AI Incorporated',
-  version: '1.1.2', // moves with the engine
+  version: '1.2.0', // moves with the engine
   slug: 'dilution-planner',
   publicBase: 'https://benchtools.ligant.ai/',
   repositoryUrl: 'https://github.com/Ligant-AI/C3-Dilution-Planner',

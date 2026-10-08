@@ -1189,7 +1189,7 @@ function buildRegister(n) {
       value: t.roundTrip === 'derived'
         ? `${ROUND_TRIP_ULP_PER_STEP} ULP of the target per step from stock (${ROUND_TRIP_ULP_PER_STEP}k at k steps), a planned intermediate counting as a step. Reference value: the target in the engine's internal unit`
         : null,
-      basis: 'Analytic over the operation set, rounding count checked basis by basis. Not assumed from C1. Memo signed 21 September 2026, effective on insertion of M1',
+      basis: 'Analytic over the operation set, rounding count checked basis by basis. Not assumed from C1. Memo signed 21 September 2026',
       status: t.roundTrip,
     },
     {
@@ -1221,7 +1221,6 @@ function buildRegister(n) {
       value: '{10, 100, 1000, …}',
       basis: 'Inspection: checkable by eye. Consequence published per C3-DT-06 step 5: no intermediate for f ≤ 11 under the final-volume and available-volume bases, f ≤ 10 under the diluent-volume basis',
       status: 'disclosed',
-      note: 'open item 16 closed as decades, 21 September 2026',
     },
     {
       threshold: 'Displayed precision, volumes',
