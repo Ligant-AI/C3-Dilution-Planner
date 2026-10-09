@@ -122,11 +122,21 @@ Same inputs, same outputs: nothing reads a clock or a random source.
 
 ## Privacy
 
-Everything is computed in your browser. Nothing you enter is transmitted, and
-there is no account. The typefaces are self-hosted, and the tool's own source
-contains no network call of any kind. The one script that can make a request is
-the suite's shared footer (`@ligant/bench-chrome`), which loads Google Analytics
-only after you click Allow in its privacy banner.
+Everything is computed in your browser. Nothing you enter into the planner is
+transmitted, and there is no account. The typefaces are self-hosted, and the
+tool's own source contains no network call of any kind. The one script that can
+make a request is the suite's shared footer (`@ligant/bench-chrome`), which loads
+Google Analytics only after you click Allow in its privacy banner, and which
+sends the newsletter signup when you submit it.
+
+**The newsletter signup in the footer is separate from the planner.** On the
+hosted page it asks for an email address and a consent tick. Nothing is sent
+until you submit it; then the email address and the consent, and nothing you
+entered into the planner, go in one request to the site's own `/api/subscribe`,
+which forwards them to ligant.ai to email you a confirmation link. Nothing joins
+the list until you confirm. A copy you run yourself shows a link to the signup on
+ligant.ai instead of the form. See the
+[Privacy Policy](https://ligant.ai/privacy#newsletter).
 
 **The tool stores nothing you enter.** It sets no cookie of its own, reads none,
 and keeps none of your declarations: a reload starts an empty page rather than
@@ -141,18 +151,21 @@ be present in your browser there; this tool neither sets nor reads them.
 added by the host to count visits. It records which page was opened, how often,
 roughly where from, and how quickly it loaded. By Cloudflare's documentation it
 uses no cookie or `localStorage` and does not fingerprint by IP or User-Agent. It
-reports to the site's own `/cdn-cgi/rum`. The page's content security policy —
-in `index.html` and in `public/_headers` — allows that script and endpoint, and
-the Google Analytics hosts below, and nothing else outside the page's own
-address, so it is there to read. A copy you run yourself never loads it.
+reports to the site's own `/cdn-cgi/rum`. The page's content security policy,
+in `index.html` and in `public/_headers`, allows that script and endpoint, the
+newsletter endpoint `/api/subscribe`, and the Google Analytics hosts below, and
+nothing else outside the page's own address, so it is there to read. A copy you run yourself never loads it.
 
 **Google Analytics runs only if you allow it.** On a first visit the shared
 footer shows a banner. Until you click Allow, the page makes no request to
 Google and sets no cookie. If you allow it, Google Analytics (`G-9V1GYE3KRX`)
 sets two host-only cookies and records which pages you visit, with the page
 address sent without any query string or fragment. It never receives anything
-you type: the suite's release check types a marker into every field, clicks
-Allow, and fails if the marker appears in any request. The content security
+you type: the suite's release check types a marker into every field of the
+planner, clicks Allow, and fails if the marker appears in any request. It then
+checks the newsletter signup on its own: nothing sent before you submit, and one
+request carrying only the email address, the consent and an empty spam-trap
+field. The content security
 policy allows exactly the Google hosts that needs. "Privacy choices" in the
 footer reopens the banner; withdrawing deletes the cookies. See the
 [Privacy Policy](https://ligant.ai/privacy#google-analytics).
@@ -206,7 +219,7 @@ It plans pipetted preparation only: diluent added to a mark is out of scope.
 
 ## How to cite
 
-> Modi, A.B. (2026). Dilution Planner (v1.2.0) [Computer software].
+> Modi, A.B. (2026). Dilution Planner (v1.2.1) [Computer software].
 > Ligant AI Incorporated. benchtools.ligant.ai/dilution-planner/
 
 The footer of the tool carries this same line with a one-click copy button,
