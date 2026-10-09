@@ -38,6 +38,11 @@
 // row's basis drops an internal reference; both are kept in
 // REGISTER-AUDIT-TRAIL.md. The citation footnote states why references are
 // text without a false privacy claim. No number changes.
-export const ENGINE_VERSION = '1.2.0';
+// 1.2.1 (9 October 2026), PATCH: page text, CSP and a dependency only. The
+// suite footer (@ligant/bench-chrome 1.3.0) opens with a newsletter signup that
+// posts to /api/subscribe, which the CSP now allows, and the page's privacy
+// text is scoped to what is entered into the planner. No number and no object
+// changes.
+export const ENGINE_VERSION = '1.2.1';
 export const URS_VERSION = '0.4.2';
 export const TOOL_ID = 'C3';
