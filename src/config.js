@@ -1,0 +1,18 @@
+export const CONFIG = Object.freeze({
+    toolTitle: 'Dilution Planner',
+    toolId: 'C3',
+    productLine: 'Ligant Bench Tools',
+    publisher: 'Ligant',
+    legalEntity: 'Ligant AI Incorporated',
+    version: '1.2.1',
+    slug: 'dilution-planner',
+    publicBase: 'https://benchtools.ligant.ai/',
+    repositoryUrl: 'https://github.com/Ligant-AI/C3-Dilution-Planner',
+    repositoryLabel: 'github.com/Ligant-AI/C3-Dilution-Planner',
+    doi: null,
+    citationAuthor: 'Modi, A.B.',
+    citationYear: '2026',
+    tagline: 'Plans the volumes to combine to reach a stated target concentration, or an ordered set of them, from a stated stock, including any single intermediate dilution a step needs to be pipettable. Every value is computed deterministically by arithmetic you can read. No model and no inference is applied to any reported number.',
+    standfirst: 'A dilution is arithmetic a spreadsheet performs correctly and records incompletely. What the stated volume is the volume of, whether the series was prepared serially or independently and from which vessel, and whether the plan is preparable at all are invisible in the resulting numbers. This tool asks for all three and puts them in the result.',
+    scopeNote: 'This tool plans the preparation of a dilution or a dilution series. It does not prepare it, does not observe what was pipetted, does not analyse the resulting data, and cannot detect a stock concentration that is wrong. All computation is performed locally in this browser. Nothing you enter into the planner is transmitted.',
+});
