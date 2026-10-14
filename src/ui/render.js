@@ -1,7 +1,7 @@
 import { escapeHtml as esc } from './page-content.js';
-import { basisSentence, capabilitySentence, diluentSentence } from '../engine/format.js';
-const vq = (q) => (q ? `<span class="num">${esc(q.display)}</span> ${esc(q.unit)}` : '—');
-const cq = (c) => (c ? `<span class="num">${esc(c.value)}</span> ${esc(c.unit)}` : '—');
+import { basisSentence, capabilitySentence, diluentSentence, shortCode } from '../engine/format.js';
+const vq = (q) => (q ? `<span class="num">${esc(q.display)}</span> ${esc(q.unit)}` : 'n/a');
+const cq = (c) => (c ? `<span class="num">${esc(c.value)}</span> ${esc(c.unit)}` : 'n/a');
 export function renderDeclarations(r) {
     const d = r.declarations;
     if (!d || !d.stock.concentration) {
@@ -13,7 +13,7 @@ export function renderDeclarations(r) {
     if (d.volume && d.basis)
         decl('Stated volume', `${vq({ display: d.volume.value, unit: d.volume.unit })} as ${esc(d.basis.short)}${d.basis.fixedByImport ? ' (fixed by import)' : ''}`, d.basis.fixedByImport ? 'fixed' : '');
     if (d.route)
-        decl('Route', d.route.notApplicable ? 'single point — no route' : esc(d.route.label.split(' — ')[0]), d.route.notApplicable ? 'absent' : '');
+        decl('Route', d.route.notApplicable ? 'single point, no route' : esc(d.route.label.split(': ')[0]), d.route.notApplicable ? 'absent' : '');
     if (d.diluent)
         decl('Diluent', d.diluent.notRecorded ? 'not recorded' : esc(d.diluent.name), d.diluent.notRecorded ? 'absent' : '');
     if (d.target.provenance)
@@ -29,10 +29,10 @@ export function renderDeclarations(r) {
 }
 export function renderPlanRegion(r) {
     if (r.status === 'incomplete') {
-        return `<div class="state-block incomplete"><h3>No plan yet — declarations incomplete</h3><ul>${r.incomplete.map((i) => `<li>${esc(i.message)}</li>`).join('')}</ul></div>`;
+        return `<div class="state-block incomplete"><h3>No plan yet: declarations incomplete</h3><ul>${r.incomplete.map((i) => `<li>${esc(i.message)}</li>`).join('')}</ul></div>`;
     }
     if (r.status === 'rejected') {
-        return `<div class="state-block withheld"><h3>Plan withheld — the tool declines to compute for a stated physical reason</h3><ul>${r.rejections.map((x) => `<li><span class="code">${esc(x.code)}</span>${esc(x.message)}</li>`).join('')}</ul></div>`;
+        return `<div class="state-block withheld"><h3>Plan withheld: the tool declines to compute for a stated physical reason</h3><ul>${r.rejections.map((x) => `<li>${esc(x.message)}</li>`).join('')}</ul></div>`;
     }
     const flagsFor = (label) => r.flags.filter((f) => f.scope.vessel === label);
     const parts = [];
@@ -40,14 +40,14 @@ export function renderPlanRegion(r) {
         parts.push(renderVessel(v, r, flagsFor(v.label)));
     const planFlags = r.flags.filter((f) => f.scope.level === 'plan');
     if (planFlags.length) {
-        parts.push(`<ul class="plan-flags" aria-label="plan-level flags">${planFlags.map((f) => `<li><span class="code">${esc(f.code)}</span>${esc(f.message)}</li>`).join('')}</ul>`);
+        parts.push(`<ul class="plan-flags" aria-label="plan-level flags">${planFlags.map((f) => `<li><span class="code">${esc(shortCode(f.code))}</span>${esc(f.message)}</li>`).join('')}</ul>`);
     }
     parts.push(`<p class="plan-summary">Stock consumed, including any intermediate: ${vq(r.stockConsumed)}. ${esc(r.labelScheme)}</p>`);
     return parts.join('');
 }
 function renderVessel(v, r, flags) {
-    const chips = flags.map((f) => `<span class="flag-chip">${esc(f.code)}</span>`).join('');
-    const kindWord = v.kind === 'stock' ? 'stock' : v.kind === 'intermediate' ? `intermediate — 1/${v.intermediateFactor} of ${esc(v.sourceLabel)}` : v.isZero ? 'point — diluent alone' : v.isUndiluted ? 'point — undiluted stock' : 'point';
+    const chips = flags.map((f) => `<span class="flag-chip">${esc(shortCode(f.code))}</span>`).join('');
+    const kindWord = v.kind === 'stock' ? 'stock' : v.kind === 'intermediate' ? `intermediate, 1/${v.intermediateFactor} of ${esc(v.sourceLabel)}` : v.isZero ? 'point, diluent alone' : v.isUndiluted ? 'point, undiluted stock' : 'point';
     const meta = v.kind === 'stock' ? '' : v.isZero ? 'not drawn from any vessel' : `drawn from <span class="num">${esc(v.sourceLabel)}</span> · ${v.stepsFromStock} step${v.stepsFromStock === 1 ? '' : 's'} from stock`;
     let grid = '';
     if (v.kind === 'stock') {
@@ -75,10 +75,10 @@ function renderVessel(v, r, flags) {
       <div class="vg"><span class="k">Achieved (point value)</span><span class="v">${esc(c.achieved.display)} ${esc(c.achieved.unit)}</span><span class="sub">from the displayed volumes, before any pipetting error</span></div>
       ${c.bound.status === 'derived'
             ? `<div class="vg"><span class="k">Bound on departure</span><span class="v">±${esc(c.bound.display)}</span><span class="sub">relative, compounded along the chain</span></div>`
-            : `<div class="vg"><span class="k">Bound on departure</span><span class="v">bound: derivation memo unsigned</span><span class="sub">the bound is withheld until its derivation is signed; the achieved value above is a computation and stands (C3-OUT-03)</span></div>`}`}
+            : `<div class="vg"><span class="k">Bound on departure</span><span class="v">bound not available</span><span class="sub">no bound is stated for this plan; the achieved value above is computed from the displayed volumes</span></div>`}`}
     </div>`;
     }
-    const flagList = flags.length ? `<ul class="vessel-flags">${flags.map((f) => `<li><span class="code">${esc(f.code)}</span>${esc(f.message)}</li>`).join('')}</ul>` : '';
+    const flagList = flags.length ? `<ul class="vessel-flags">${flags.map((f) => `<li><span class="code">${esc(shortCode(f.code))}</span>${esc(f.message)}</li>`).join('')}</ul>` : '';
     return `<article class="vessel ${esc(v.kind)}${v.isZero ? ' zero' : ''}" data-label="${esc(v.label)}" data-step="${v.kind === 'stock' ? '' : '1'}">
     <div class="vessel-head"><span class="label">${esc(v.label)}</span><span class="kind">${kindWord}</span><span class="meta">${meta}</span><span class="flags" data-flags="${flags.length}">${chips}</span></div>
     ${grid}${flagList}
@@ -90,12 +90,12 @@ export function renderDerivation(r) {
     const d = r.declarations;
     const echo = [];
     const row = (k, v) => echo.push(`<dt>${esc(k)}</dt><dd>${v}</dd>`);
-    row('Stock concentration', `${cq(d.stock.concentration)} — ${esc(d.stock.provenance.label)}`);
+    row('Stock concentration', `${cq(d.stock.concentration)}, ${esc(d.stock.provenance.label)}`);
     row('Available stock volume', d.stock.availableVolume.declared ? vq({ display: d.stock.availableVolume.value, unit: d.stock.availableVolume.unit }) : 'not declared');
     row('Stock formulation', d.stock.formulation.recorded ? esc(d.stock.formulation.text) : 'not recorded');
     row('Target form', esc(d.target.form) + (d.target.declaredFactor ? `; declared factor <span class="num">${esc(String(d.target.declaredFactor))}</span>, ${esc(String(d.target.count))} points` : ''));
     row('Targets', d.target.values.map((t) => `<span class="num">${esc(t.label)}</span> ${t.value !== null ? `<span class="num">${esc(t.value)}</span> ${esc(t.unit)}` : '(derived from the top)'}`).join('; '));
-    row('Target provenance', esc(d.target.provenance.label) + (d.target.origin && d.target.origin.tool ? ` — ${esc(d.target.origin.tool)} ${esc(d.target.origin.resultId || '')}` : ''));
+    row('Target provenance', esc(d.target.provenance.label) + (d.target.origin && d.target.origin.tool ? `, ${esc(d.target.origin.tool)} ${esc(d.target.origin.resultId || '')}` : ''));
     row('Stated volume and basis', esc(basisSentence(r)) + ` The stated volume is ${esc(d.basis.statedVolumeIs)}.`);
     row('Route', d.route ? esc(d.route.label) : 'not declared');
     row('Diluent', esc(diluentSentence(r)));
@@ -103,11 +103,11 @@ export function renderDerivation(r) {
     for (const o of d.overrides)
         row('Replaced import', `${esc(o.field)}: imported ${esc(String(o.imported))}, replaced by ${esc(String(o.replaced))}`);
     return `
-    <h3>Relations applied — ${esc(d.basis.short)}</h3>
+    <h3>Relations applied: ${esc(d.basis.short)}</h3>
     <ul>${r.relations.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>
     <p>${esc(r.factorConvention)}. ${esc(r.orderOfAddition)}</p>
     <h3>Assumptions</h3>
-    <p>${esc(r.additivity.statement)} Scope: ${esc(r.additivity.scope.join('; '))}. Status: ${esc(r.additivity.status)}.</p>
+    <p>${esc(r.additivity.statement)} Scope: ${esc(r.additivity.scope.join('; '))}.</p>
     <h3>Inputs as entered</h3>
     <dl class="echo">${echo.join('')}</dl>
     ${r.notes.length ? `<p class="notes">${r.notes.map(esc).join(' ')}</p>` : ''}

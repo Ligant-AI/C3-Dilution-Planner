@@ -1,8 +1,11 @@
+export function shortCode(code) {
+    return String(code).replace(/^C3-/, '');
+}
 function vq(q) {
-    return q ? `${q.display} ${q.unit}` : '—';
+    return q ? `${q.display} ${q.unit}` : 'n/a';
 }
 function cq(c) {
-    return c ? `${c.value} ${c.unit}` : '—';
+    return c ? `${c.value} ${c.unit}` : 'n/a';
 }
 export function basisSentence(r) {
     const d = r.declarations;
@@ -25,14 +28,14 @@ export function receivingWord(v) {
 export function vesselInstruction(v, r) {
     if (v.kind === 'stock') {
         const on = v.volumes.onward.map((o) => `${vq(o.transfer)} to ${o.to}`).join(', ');
-        return `${v.label} — stock, ${cq(v.concentration.entered)}. Draw: ${on || 'nothing'}.`;
+        return `${v.label}: stock, ${cq(v.concentration.entered)}. Draw: ${on || 'nothing'}.`;
     }
     const vol = v.volumes;
     if (v.isZero) {
-        return `${v.label} — diluent alone (target 0): place ${vq(vol.diluent)} of diluent. Contains none of the stock.`;
+        return `${v.label}: diluent alone (target 0). Place ${vq(vol.diluent)} of diluent. Contains none of the stock.`;
     }
     const what = v.kind === 'intermediate' ? `intermediate at 1/${v.intermediateFactor} of ${v.sourceLabel} (${cq(v.concentration.nominal)} nominal)` : `point, target ${cq(v.concentration.target)}`;
-    let s = `${v.label} — ${what}. `;
+    let s = `${v.label}: ${what}. `;
     if (v.receiving === 'stain') {
         s += `The vessel must already hold ${vq(vol.mustAlreadyHold)} of stain (cells and buffer). Add ${vq(vol.transferIn)} from ${v.sourceLabel}. `;
     }
@@ -54,7 +57,7 @@ export function vesselInstruction(v, r) {
 export function notebookText(r) {
     const L = [];
     const d = r.declarations;
-    L.push(`Dilution plan — ${r.tool} Dilution Planner, engine ${r.engineVersion} (URS ${r.ursVersion})`);
+    L.push(`Ligant Bench Tools: Dilution Planner, engine ${r.engineVersion}`);
     L.push(r.scope + ' ' + r.plansNotVerifies);
     L.push('');
     if (r.status === 'incomplete') {
@@ -81,17 +84,17 @@ export function notebookText(r) {
     if (r.status === 'rejected') {
         L.push('Plan withheld');
         for (const x of r.rejections)
-            L.push(`  [${x.code}] ${x.message}`);
+            L.push(`  ${x.message}`);
         return L.join('\n');
     }
     L.push(`Vessels (${r.labelScheme})`);
     r.vessels.forEach((v, i) => {
         L.push(`  ${i + 1}. ${vesselInstruction(v, r)}`);
         if (v.kind !== 'stock' && !v.isZero) {
-            L.push(`     steps from stock ${v.stepsFromStock}; factor from ${v.sourceLabel} ${v.factorFromSource.display}; exact ${v.concentration.exact.display} ${v.concentration.exact.unit}; achieved ${v.concentration.achieved.display} ${v.concentration.achieved.unit}; ${v.concentration.bound.status === 'derived' ? `bound ±${v.concentration.bound.display} relative` : 'bound: derivation memo unsigned'}`);
+            L.push(`     steps from stock ${v.stepsFromStock}; factor from ${v.sourceLabel} ${v.factorFromSource.display}; exact ${v.concentration.exact.display} ${v.concentration.exact.unit}; achieved ${v.concentration.achieved.display} ${v.concentration.achieved.unit}; ${v.concentration.bound.status === 'derived' ? `bound ±${v.concentration.bound.display} relative` : 'bound not available'}`);
         }
         for (const f of r.flags.filter((f) => f.scope.vessel === v.label))
-            L.push(`     FLAG ${f.code}: ${f.message}`);
+            L.push(`     FLAG ${shortCode(f.code)}: ${f.message}`);
     });
     L.push(`  Stock consumed: ${vq(r.stockConsumed)}`);
     const planFlags = r.flags.filter((f) => f.scope.level === 'plan');
@@ -99,7 +102,7 @@ export function notebookText(r) {
         L.push('');
         L.push('Plan-level flags');
         for (const f of planFlags)
-            L.push(`  FLAG ${f.code}: ${f.message}`);
+            L.push(`  FLAG ${shortCode(f.code)}: ${f.message}`);
     }
     if (r.notes.length) {
         L.push('');

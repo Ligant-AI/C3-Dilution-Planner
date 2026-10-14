@@ -33,27 +33,27 @@ export function parseSharedObject(text) {
         return { error: `${describeTool(obj.tool)}. This tool reads an object whose "tool" is the string "C4" or "C1".` };
     }
     if (!Array.isArray(obj.flags))
-        return { error: 'the object carries no flags array; a series or value stripped of its flags is not accepted (C3-ST-01, C3-ST-03)' };
+        return { error: 'the object carries no flags array; a series or value stripped of its flags is not accepted' };
     return obj.tool === 'C4' ? mapC4(obj) : mapC1(obj);
 }
 function mapC4(obj) {
     const series = obj.series || {};
     const pts = Array.isArray(series.points) ? series.points : Array.isArray(obj.points) ? obj.points : null;
     if (!pts || pts.length === 0)
-        return { error: 'the C4 object carries no series points' };
+        return { error: 'the Antibody Titration Planner object carries no series points' };
     const targets = pts.map((p) => q(p.target || p));
     if (targets.some((t) => !t))
-        return { error: 'every C4 point must carry a target concentration with a unit' };
+        return { error: 'every Antibody Titration Planner point must carry a target concentration with a unit' };
     const units = new Set(targets.map((t) => t.unit));
     if (units.size !== 1)
-        return { error: 'C4 points carry mixed units' };
+        return { error: 'Antibody Titration Planner points carry mixed units' };
     const sv = q(obj.stainingVolume || series.stainingVolume);
     if (!sv)
-        return { error: 'the C4 object carries no staining volume' };
+        return { error: 'the Antibody Titration Planner object carries no staining volume' };
     if (obj.cellNumber === undefined && series.cellNumber === undefined)
-        return { error: 'the C4 object carries no cell number' };
+        return { error: 'the Antibody Titration Planner object carries no cell number' };
     if (!obj.vendorBasis && !series.vendorBasis)
-        return { error: 'the C4 object carries no vendor recommendation basis' };
+        return { error: 'the Antibody Titration Planner object carries no vendor recommendation basis' };
     return {
         tool: 'C4',
         fields: {
@@ -74,7 +74,7 @@ function mapC4(obj) {
 function mapC1(obj) {
     const c = q(obj.concentration || obj.result);
     if (!c)
-        return { error: 'the C1 object carries no concentration with a unit' };
+        return { error: 'the Molarity Converter object carries no concentration with a unit' };
     return {
         tool: 'C1',
         fields: { stock: c, stockProvenance: 'c1' },

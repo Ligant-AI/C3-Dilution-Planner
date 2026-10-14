@@ -15,7 +15,7 @@ function fillUnits(select, units, preferred, { unselected = false } = {}) {
     if (unselected) {
         const o = document.createElement('option');
         o.value = '';
-        o.textContent = '— select —';
+        o.textContent = 'Select';
         select.appendChild(o);
     }
     for (const u of units) {
@@ -156,7 +156,7 @@ function syncImport() {
             importState = null;
         }
         $('import-override-label').hidden = true;
-        status.textContent = 'Nothing is fetched; the object is read here and nowhere else. A C4 series fixes the targets, the staining volume and the final-volume basis; a C1 value fixes the stock. Every imported flag is restated on the output.';
+        status.textContent = 'Nothing is fetched; the object is read here and nowhere else. An Antibody Titration Planner series fixes the targets, the staining volume and the final-volume basis; a Molarity Converter value fixes the stock. Every imported flag is restated on the output.';
         return;
     }
     const mapped = parseSharedObject(text);

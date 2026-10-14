@@ -1,19 +1,19 @@
 import { escapeHtml as esc } from './page-content.js';
 import { markSvg } from '@ligant/bench-chrome';
-import { basisSentence, capabilitySentence, diluentSentence } from '../engine/format.js';
-const vq = (q) => (q ? `<span class="num">${esc(q.display)}</span> ${esc(q.unit)}` : '—');
-const cq = (c) => (c ? `<span class="num">${esc(c.value)}</span> ${esc(c.unit)}` : '—');
+import { basisSentence, capabilitySentence, diluentSentence, shortCode } from '../engine/format.js';
+const vq = (q) => (q ? `<span class="num">${esc(q.display)}</span> ${esc(q.unit)}` : 'n/a');
+const cq = (c) => (c ? `<span class="num">${esc(c.value)}</span> ${esc(c.unit)}` : 'n/a');
 export function renderBenchSheet(r, config) {
     const head = `<div class="sheet-head">${markSvg({ size: 30, variant: 'plain', title: 'Ligant' })}<div>
-  <h1>${esc(config.toolTitle)} — bench sheet</h1>
-  <p class="pub">${esc(config.publisher)} · ${esc(config.productLine)} · ${esc(config.toolId)} · engine <span class="num">${esc(r.engineVersion)}</span></p>
+  <h1>${esc(config.toolTitle)}: bench sheet</h1>
+  <p class="pub">${esc(config.publisher)} · ${esc(config.productLine)} · engine <span class="num">${esc(r.engineVersion)}</span></p>
   <p class="pub">${esc(r.scope)} ${esc(r.plansNotVerifies)}</p>
   </div></div>`;
     if (r.status === 'incomplete')
         return `${head}<p>No plan: declarations incomplete.</p>`;
     const d = r.declarations;
     const decls = `<h2>Declarations</h2><dl class="decls">
-    <dt>Stock</dt><dd>${cq(d.stock.concentration)} — ${esc(d.stock.provenance.label)}${d.stock.availableVolume.declared ? `; available ${esc(d.stock.availableVolume.value)} ${esc(d.stock.availableVolume.unit)}` : '; available volume not declared'}</dd>
+    <dt>Stock</dt><dd>${cq(d.stock.concentration)}, ${esc(d.stock.provenance.label)}${d.stock.availableVolume.declared ? `; available ${esc(d.stock.availableVolume.value)} ${esc(d.stock.availableVolume.unit)}` : '; available volume not declared'}</dd>
     <dt>Stock formulation</dt><dd>${d.stock.formulation.recorded ? esc(d.stock.formulation.text) : 'not recorded'}</dd>
     <dt>Targets</dt><dd>${esc(d.target.provenance.label)}${d.target.origin && d.target.origin.tool ? ` (${esc(d.target.origin.tool)} ${esc(d.target.origin.resultId || '')})` : ''}: ${d.target.values.map((t) => `${esc(t.label)} ${t.value !== null ? `${esc(t.value)} ${esc(t.unit)}` : '(derived)'}`).join('; ')}${d.target.declaredFactor ? `; factor ${esc(String(d.target.declaredFactor))}, ${esc(String(d.target.count))} points` : ''}</dd>
     <dt>Stated volume</dt><dd>${esc(basisSentence(r))}</dd>
@@ -27,20 +27,20 @@ export function renderBenchSheet(r, config) {
     <dt>Assumption</dt><dd>${esc(r.additivity.statement)} Scope: ${esc(r.additivity.scope.join('; '))}.</dd>
   </dl>`;
     if (r.status === 'rejected') {
-        return `${head}${decls}<h2>Plan</h2><div class="withheld"><p><strong>Plan withheld.</strong> The tool declined to compute for a stated physical reason:</p><ul>${r.rejections.map((x) => `<li>[${esc(x.code)}] ${esc(x.message)}</li>`).join('')}</ul></div>`;
+        return `${head}${decls}<h2>Plan</h2><div class="withheld"><p><strong>Plan withheld.</strong> The tool declined to compute for a stated physical reason:</p><ul>${r.rejections.map((x) => `<li>${esc(x.message)}</li>`).join('')}</ul></div>`;
     }
     const rows = r.vessels.map((v, i) => {
-        const flags = r.flags.filter((f) => f.scope.vessel === v.label).map((f) => `<span class="flag">${esc(f.code)}: ${esc(f.message)}</span>`).join('');
+        const flags = r.flags.filter((f) => f.scope.vessel === v.label).map((f) => `<span class="flag">${esc(shortCode(f.code))}: ${esc(f.message)}</span>`).join('');
         if (v.kind === 'stock') {
-            return `<tr><td class="num">${i + 1}</td><td class="num">${esc(v.label)}</td><td>stock, ${cq(v.concentration.entered)}</td><td>—</td><td>—</td><td>—</td><td>${v.volumes.onward.map((o) => `${vq(o.transfer)} → ${esc(o.to)}`).join('<br>') || 'nothing'}</td><td>—</td><td>${flags}</td></tr>`;
+            return `<tr><td class="num">${i + 1}</td><td class="num">${esc(v.label)}</td><td>stock, ${cq(v.concentration.entered)}</td><td>n/a</td><td>n/a</td><td>n/a</td><td>${v.volumes.onward.map((o) => `${vq(o.transfer)} → ${esc(o.to)}`).join('<br>') || 'nothing'}</td><td>n/a</td><td>${flags}</td></tr>`;
         }
         const vol = v.volumes;
-        const contents = v.kind === 'intermediate' ? `intermediate, 1/${v.intermediateFactor} of ${esc(v.sourceLabel)}; ${cq(v.concentration.nominal)} nominal` : v.isZero ? `diluent-only control (target 0)` : `${v.isUndiluted ? 'undiluted stock; ' : ''}target ${cq(v.concentration.target)}; achieved ${esc(v.concentration.achieved.display)} ${esc(v.concentration.achieved.unit)} (${v.concentration.bound.status === 'derived' ? `bound ±${esc(v.concentration.bound.display)}` : 'bound: derivation memo unsigned'})`;
+        const contents = v.kind === 'intermediate' ? `intermediate, 1/${v.intermediateFactor} of ${esc(v.sourceLabel)}; ${cq(v.concentration.nominal)} nominal` : v.isZero ? `diluent-only control (target 0)` : `${v.isUndiluted ? 'undiluted stock; ' : ''}target ${cq(v.concentration.target)}; achieved ${esc(v.concentration.achieved.display)} ${esc(v.concentration.achieved.unit)} (${v.concentration.bound.status === 'derived' ? `bound ±${esc(v.concentration.bound.display)}` : 'bound not available'})`;
         const receiving = v.receiving === 'stain' ? `<strong>stain already in vessel:</strong> ${vq(vol.mustAlreadyHold)} (cells and buffer; not added by this plan)` : v.isUndiluted ? 'no diluent' : `diluent ${vq(vol.diluent)}`;
-        const add = v.isZero ? '—' : `${vq(vol.transferIn)} from <span class="num">${esc(v.sourceLabel)}</span>`;
+        const add = v.isZero ? 'n/a' : `${vq(vol.transferIn)} from <span class="num">${esc(v.sourceLabel)}</span>`;
         const total = `${vq(vol.total)}${vol.closureTarget && !vol.closes ? `<br><span class="small">sum of displayed volumes; prepared to close ${esc(vol.closureTarget)} ${esc(vol.total.unit)} (ρ ${esc(vol.residual)})</span>` : ''}${vol.finalVolume ? '<br><span class="small">final volume = D + Tᵈ</span>' : ''}`;
-        const onward = vol.onward.length ? vol.onward.map((o) => `${vq(o.transfer)} → ${esc(o.to)}`).join('<br>') : '—';
-        const remaining = vol.onward.length ? vq(vol.remaining) : '—';
+        const onward = vol.onward.length ? vol.onward.map((o) => `${vq(o.transfer)} → ${esc(o.to)}`).join('<br>') : 'n/a';
+        const remaining = vol.onward.length ? vq(vol.remaining) : 'n/a';
         return `<tr><td class="num">${i + 1}</td><td class="num">${esc(v.label)}</td><td>${contents}<br><span class="small">${v.stepsFromStock} step${v.stepsFromStock === 1 ? '' : 's'} from stock</span></td><td>${receiving}</td><td>${add}</td><td>${total}</td><td>${onward}</td><td>${remaining}</td><td>${flags}</td></tr>`;
     }).join('');
     const planFlags = r.flags.filter((f) => f.scope.level === 'plan');
@@ -51,7 +51,7 @@ export function renderBenchSheet(r, config) {
     <tbody>${rows}</tbody>
   </table>
   <p class="small">Stock consumed, including any intermediate: ${vq(r.stockConsumed)}.</p>
-  ${planFlags.length ? `<h2>Plan-level flags</h2><ul>${planFlags.map((f) => `<li><span class="flag">${esc(f.code)}: ${esc(f.message)}</span></li>`).join('')}</ul>` : ''}
+  ${planFlags.length ? `<h2>Plan-level flags</h2><ul>${planFlags.map((f) => `<li><span class="flag">${esc(shortCode(f.code))}: ${esc(f.message)}</span></li>`).join('')}</ul>` : ''}
   ${r.notes.length ? `<p class="small">${r.notes.map(esc).join(' ')}</p>` : ''}
   <p class="handfill">Date: ______________ &nbsp; Prepared by: ______________ &nbsp; Stock lot: ______________</p>`;
 }

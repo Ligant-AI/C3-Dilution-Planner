@@ -38,14 +38,14 @@
 
         <section class="panel" id="import-panel" hidden>
           <div class="panel-head">
-            <div class="titles"><h2>Import from C4 or C1</h2></div>
+            <div class="titles"><h2>Import from the Antibody Titration Planner or the Molarity Converter</h2></div>
             <span class="optional">optional</span>
           </div>
           <div class="panel-body stack">
             <div class="field">
-              <label for="import-text">Paste the result object (JSON) from C4 or C1</label>
+              <label for="import-text">Paste the result object (JSON) from the Antibody Titration Planner or the Molarity Converter</label>
               <textarea id="import-text" rows="3" class="num" placeholder='{"tool":"C4", …}'></textarea>
-              <p class="help" id="import-status">Nothing is fetched; the object is read here and nowhere else. A C4 series fixes the targets, the staining volume and the final-volume basis; a C1 value fixes the stock. Every imported flag is restated on the output.</p>
+              <p class="help" id="import-status">Nothing is fetched; the object is read here and nowhere else. An Antibody Titration Planner series fixes the targets, the staining volume and the final-volume basis; a Molarity Converter value fixes the stock. Every imported flag is restated on the output.</p>
               <label class="check" id="import-override-label" hidden><input type="checkbox" id="import-override"> replace imported declarations manually (the replacement is named on the output)</label>
             </div>
           </div>
@@ -70,12 +70,12 @@
             <div class="field">
               <label for="stock-provenance">Source of the stock concentration</label>
               <select id="stock-provenance" name="stock-provenance">
-                <option value="">— select —</option>
+                <option value="">Select</option>
                 <option value="coa">certificate of analysis</option>
                 <option value="vendor-datasheet">vendor datasheet</option>
                 <option value="measured">measured</option>
-                <option value="c1">computed by C1</option>
-                <option value="c7">computed by C7</option>
+                <option value="c1">computed by the Molarity Converter</option>
+                <option value="c7">computed by Reconstitution</option>
                 <option value="not-recorded">not recorded</option>
               </select>
             </div>
@@ -134,9 +134,9 @@
             <div class="field">
               <label for="target-provenance">Source of the target set</label>
               <select id="target-provenance">
-                <option value="">— select —</option>
+                <option value="">Select</option>
                 <option value="user">user-specified</option>
-                <option value="c4">imported from C4</option>
+                <option value="c4">imported from the Antibody Titration Planner</option>
                 <option value="other">imported from another tool</option>
               </select>
             </div>
@@ -150,7 +150,7 @@
                 <input id="target-origin-id" type="text" placeholder="result identifier" class="num">
               </div>
             </div>
-            <p class="help target-origin" hidden>The import transport is not yet specified; the origin is recorded here.</p>
+            <p class="help target-origin" hidden>The origin is recorded on the output.</p>
           </div>
         </section>
 
@@ -172,18 +172,18 @@
             <div class="field">
               <span class="label">What the stated volume is the volume of</span>
               <div class="radios stacked" id="basis-radios">
-                <label><input type="radio" name="basis" value="final"> <span><strong>final volume</strong> — the sum of the diluent and the stock pipetted into each vessel</span></label>
-                <label><input type="radio" name="basis" value="diluent"> <span><strong>diluent volume</strong> — the diluent pipetted into each vessel; the stock is added to it, and the final volume is the sum</span></label>
-                <label id="basis-available-label"><input type="radio" name="basis" value="available"> <span><strong>volume available after onward transfer</strong> — the volume that remains in each vessel once the transfer to the next point has been taken</span></label>
+                <label><input type="radio" name="basis" value="final"> <span><strong>final volume</strong>: the sum of the diluent and the stock pipetted into each vessel</span></label>
+                <label><input type="radio" name="basis" value="diluent"> <span><strong>diluent volume</strong>: the diluent pipetted into each vessel; the stock is added to it, and the final volume is the sum</span></label>
+                <label id="basis-available-label"><input type="radio" name="basis" value="available"> <span><strong>volume available after onward transfer</strong>: the volume that remains in each vessel once the transfer to the next point has been taken</span></label>
               </div>
               <p class="help" id="basis-available-reason" hidden>The third option is available only for a serial route with more than one point.</p>
-              <p class="help">Every option describes pipetted volumes. Volumetric preparation — diluent added to a mark — is out of scope.</p>
+              <p class="help">Every option describes pipetted volumes. Volumetric preparation (diluent added to a mark) is out of scope.</p>
             </div>
             <div class="field" id="route-field" hidden>
               <span class="label">Route <span class="help-inline">(more than one point is planned; no route is pre-selected)</span></span>
               <div class="radios stacked">
-                <label><input type="radio" name="route" value="serial"> <span>serial — each point from the previous</span></label>
-                <label><input type="radio" name="route" value="independent"> <span>independent — each point from stock</span></label>
+                <label><input type="radio" name="route" value="serial"> <span>serial: each point from the previous</span></label>
+                <label><input type="radio" name="route" value="independent"> <span>independent: each point from stock</span></label>
               </div>
             </div>
           </div>
@@ -217,7 +217,7 @@
                 <select id="min-unit" class="num"></select>
               </div>
             </div>
-            <p class="help" id="min-suggested"><span class="suggested-dot" aria-hidden="true"></span>suggested, not chosen — 2 µL, carried from C4. Replace it with your pipette's value.</p>
+            <p class="help" id="min-suggested"><span class="suggested-dot" aria-hidden="true"></span>suggested, not chosen: 2 µL. Replace it with your pipette's value.</p>
             <div class="field-row">
               <div class="field">
                 <label for="max-value">Maximum single-transfer volume <span class="optional">optional, no default</span></label>
@@ -245,7 +245,7 @@
 
       <section class="panel method-panel" id="page-content" aria-labelledby="about-heading">
         <div class="panel-head">
-          <div class="titles"><h2 id="about-heading">Method, conventions and limits</h2></div>
+          <div class="titles"><h2 id="about-heading">About this calculator</h2></div>
         </div>
         <div class="panel-body prose" id="page-content-body"></div>
       </section>
@@ -289,7 +289,7 @@
           <div class="titles"><h2>Structured result</h2></div>
         </div>
         <div class="panel-body">
-          <p class="hint">The machine-readable object (shared format, C3 expression 1-c3), carrying the unrounded value of every quantity with its unit, every flag and every declaration the plan rests on. The plan above is rendered from it, so the two cannot disagree.</p>
+          <p class="hint">The machine-readable object, carrying the unrounded value of every quantity with its unit, every flag and every declaration the plan rests on. The plan above is rendered from it, so the two cannot disagree.</p>
           <details class="options">
             <summary>Show the object</summary>
             <pre id="object-text"></pre>

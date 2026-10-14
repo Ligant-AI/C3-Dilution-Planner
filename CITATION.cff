@@ -1,9 +1,4 @@
-# Citation metadata, read by GitHub ("Cite this repository") and by Zenodo,
-# which archives each GitHub release and gives it a DOI.
-#
-# At each release, set version to the release tag and date-released to the day
-# the tag is cut. The DOI is added once Zenodo has archived a release: a
-# placeholder that looks like an identifier is worse than an absent one.
+# Citation metadata, read by GitHub ("Cite this repository") and by Zenodo.
 cff-version: 1.2.0
 message: If you use this software, please cite it as below.
 type: software
