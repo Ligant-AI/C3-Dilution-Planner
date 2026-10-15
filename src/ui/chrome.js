@@ -22,7 +22,7 @@ export function renderFooter() {
     });
 }
 export function renderDisclaimer() {
-    return `<strong>${RESEARCH_USE}</strong> ${esc(CONFIG.scopeNote)}`;
+    return esc(CONFIG.scopeNote);
 }
 export function renderColophon() {
     return `${markSvg({ size: 16 })}<span>${esc(CONFIG.publisher)} · ${esc(CONFIG.toolTitle)} v${esc(CONFIG.version)}</span>`;

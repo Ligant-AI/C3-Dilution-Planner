@@ -109,8 +109,7 @@ export function renderPageContent(config) {
 <li>Mass ↔ molar conversion (Molarity Converter). Titration series design (Antibody Titration Planner). The direct per-point stock volume for a titration point that is already preparable (Antibody Titration Planner). Reconstitution of a dry solute (Reconstitution). Multi-component cocktails with overage (Master Mix).</li>
 <li>Per-point stated volumes; volumetric (make-up-to-mark) preparation; plans needing more than one intermediate for a single step; mixing technique, incubation, temperature; diluent formulation or compatibility; carrier protein selection.</li>
 </ul>
-<p>Entirely client-side: nothing entered into the planner leaves the browser. The newsletter signup in the footer is separate: only an email address you choose to submit there is sent. The page loads Cloudflare Web Analytics, which counts visits and page-load speed and reads nothing you enter. Only if you allow it in the banner, it also loads Google Analytics, which sets cookies and records which pages you visit; it never receives anything you enter either. No account. Nothing you enter persists across a reload.</p>
-<p><strong>Research use only. Not qualified for GxP decision-making.</strong></p>`;
+<p>Entirely client-side: nothing entered into the planner leaves the browser. The newsletter signup in the footer is separate: only an email address you choose to submit there is sent. The page loads Cloudflare Web Analytics, which counts visits and page-load speed and reads nothing you enter. Only if you allow it in the banner, it also loads Google Analytics, which sets cookies and records which pages you visit; it never receives anything you enter either. No account. Nothing you enter persists across a reload.</p>`;
 }
 export function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
