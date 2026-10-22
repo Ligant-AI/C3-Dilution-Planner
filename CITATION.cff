@@ -17,8 +17,8 @@ authors:
   - family-names: Modi
     given-names: A.B.
     affiliation: Ligant AI Incorporated
-version: v1.2.1
-date-released: '2026-10-09'
+version: v1.2.2
+date-released: '2026-10-22'
 license: Apache-2.0
 repository-code: https://github.com/Ligant-AI/C3-Dilution-Planner
 url: https://benchtools.ligant.ai/dilution-planner/
