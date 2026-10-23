@@ -34,4 +34,4 @@ If you use Dilution Planner in your work, please cite it. The citation is in [CI
 
 Apache License 2.0, see [LICENSE](LICENSE). The bundled fonts (Inter, IBM Plex Mono) are under the SIL Open Font License 1.1.
 
-Dilution Planner v1.2.2. © Ligant AI Incorporated.
+Dilution Planner v1.2.3. © Ligant AI Incorporated.

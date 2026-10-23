@@ -1,5 +1,6 @@
 import { ENGINE_VERSION } from '../engine/version.js';
 import { SUGGESTED_MIN_TRANSFER_UL, ADDITIVITY, INTERMEDIATE_RULE_STEPS, INTERMEDIATE_CONSEQUENCE } from '../engine/plan.js';
+import { relatedHtml } from './seo.js';
 export const FAILURE_CLASSES = [
     'A stock concentration that is wrong: mislabelled, degraded, from a different lot, or correct for a different formulation.',
     'Incomplete mixing between serial steps. This is the largest real source of serial dilution error and is invisible in every record the tool produces.',
@@ -19,7 +20,7 @@ export const FLAG_LEGEND = [
     ['FL-04', 'The source of the stock concentration was recorded as "not recorded".', 'The plan cannot be traced to a source. Record one before the plan goes into a method record.'],
     ['FL-05', 'The stated volume is a volume of diluent, so each diluted vessel ends up larger than the stated volume by the transfer. An undiluted point (target = stock) is the stated volume of stock, and a zero point is the stated volume of diluent.', 'Use the final volume printed for each vessel, not the stated volume.'],
     ['FL-06', 'The plan needs more stock than the available volume you declared. Checked only if you declared an available volume.', 'Reduce the stated volume or the number of points, or get more stock. A serial route usually needs less stock than independent points, at the cost of carrying each step\'s error into the next.'],
-    ['FL-07', 'A flag raised by the tool that produced an imported value, restated with that tool named.', 'Read it as the origin tool states it.'],
+    ['FL-07', 'A flag raised by the tool that produced an imported value, restated with that tool named. Not raised in this release, which has no import.', 'Read it as the origin tool states it.'],
     ['FL-08', 'A zero-concentration point is diluent alone and contains none of the stock.', 'Prepare it separately from the chain.'],
     ['FL-09', 'A point equal to the stock concentration is undiluted stock; no diluent is added.', 'Use the stock itself for that point.'],
     ['FL-10', 'The diluent was recorded as "not recorded".', 'A concentration in an unrecorded diluent cannot be carried into a method record. Record the diluent.'],
@@ -54,6 +55,7 @@ export function renderPageContent(config) {
 <li><strong>Read the plan.</strong> Each vessel lists what to add, in order, and its total. Beside each target you see the exact concentration, the achieved concentration the displayed volumes actually make, and the bound on the departure between them. If a flag appears, find its code in the table below. If the plan is withheld, the message says what to change.</li>
 <li><strong>Copy the result.</strong> "Copy for notebook" copies the plan with every declaration, the engine version and every flag. "Print bench sheet" prints the same plan for the bench.</li>
 </ol>
+${relatedHtml()}
 
 <h3>How it works</h3>
 <p>For each target the tool takes the dilution factor from its source (the stock, or the previous vessel in a serial chain): f = c<sub>source</sub> ÷ c<sub>target</sub>. A transfer T of the source into a vessel with diluent D gives c<sub>target</sub> = c<sub>source</sub> × T ÷ (T + D), so f = (T + D) ÷ T. What you stated as the preparation volume fixes the rest. Under the final-volume basis, T = F ÷ f and D = F − T. Under the diluent-volume basis, T = D ÷ (f − 1). Under the available-volume basis, each vessel is sized backwards from the last point so that the stated volume remains after the transfer to the next. The stated volume is a volume of solution under the final-volume and available-volume bases and a volume of diluent under the diluent-volume basis. Every basis describes pipetted volumes: the tool does not plan volumetric preparation in which the diluent is added to a mark.</p>
@@ -83,7 +85,7 @@ export function renderPageContent(config) {
 <p>Engine <span class="num">${esc(ENGINE_VERSION)}</span>. The version changes whenever the calculation changes, so two results with the same engine version come from the same arithmetic.</p>
 
 <h4>Flags</h4>
-<p>A flag means the plan can be carried out but something needs your attention. Each flag appears beside the vessel or plan it concerns, with its code.</p>
+<p>A flag means the plan is printed but something needs your attention before you carry it out. FL-02, FL-03 and FL-06 mean the plan exceeds a maximum you declared; follow the flag's action first. Each flag appears beside the vessel or plan it concerns, with its code.</p>
 <table>
 <thead><tr><th>Code</th><th>What it means</th><th>What to do</th></tr></thead>
 <tbody>${flagRows}</tbody>
@@ -102,7 +104,7 @@ export function renderPageContent(config) {
 </ul>
 
 <h3>What it does not do</h3>
-<p>The tool guarantees that the plan's arithmetic is correct, that every step is preparable within the declared bounds, and that the volume basis, route, source vessel and provenance are recorded. It cannot detect:</p>
+<p>The tool guarantees that the plan's arithmetic is correct, that every volume to be pipetted in a printed plan is at or above your declared minimum, and that the volume basis, route, source vessel and provenance are recorded. A plan that exceeds a maximum transfer, vessel capacity or stock volume you declared is still printed, with FL-02, FL-03 or FL-06. It cannot detect:</p>
 <ol>${FAILURE_CLASSES.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>
 <p>Also outside its scope:</p>
 <ul>

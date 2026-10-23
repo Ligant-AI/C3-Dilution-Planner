@@ -42,6 +42,7 @@ a.eyebrow:hover { color: var(--text-primary); }
   .layout > .stack { display: contents; }
   .layout > .rail { order: 1; }
   .layout .method-panel { order: 2; }
+  .layout #faq { order: 2; }
 }
 .stack { display: flex; flex-direction: column; gap: 16px; }
 
@@ -167,7 +168,8 @@ details.options pre { margin: 11px 0 0; padding: 11px 13px; max-height: 340px; o
   .bench-sheet { display: block; color: #000; }
   .bench-sheet .sheet-head { display: flex; align-items: flex-start; gap: 8pt; border-bottom: 1.5pt solid #000; padding-bottom: 5pt; margin-bottom: 8pt; }
   .bench-sheet .sheet-head .ligant-mark { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .bench-sheet h1 { font-size: 15pt; margin: 0 0 1pt; color: #000; }
+  
+  .bench-sheet .sheet-head h2 { font-size: 15pt; font-weight: 700; margin: 0 0 1pt; color: #000; }
   .bench-sheet h2 { font-size: 12pt; margin: 10pt 0 3pt; color: #000; }
   .bench-sheet .pub { font-size: 9pt; margin: 0; }
   .bench-sheet table { border-collapse: collapse; width: 100%; font-size: 9.5pt; }
@@ -184,3 +186,9 @@ details.options pre { margin: 11px 0 0; padding: 11px 13px; max-height: 340px; o
   .bench-sheet .handfill { margin-top: 8pt; font-size: 10pt; }
   .bench-sheet .small { font-size: 9pt; }
 }
+
+.prose .related { margin-top: 10px; }
+.prose .related a, #faq a { color: var(--text-primary); }
+#faq h3 { font-size: 13px; margin: 0 0 6px; color: var(--text-primary); }
+#faq h3:not(:first-child) { margin-top: 14px; }
+#faq p { max-width: 110ch; }

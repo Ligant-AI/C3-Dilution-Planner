@@ -4,6 +4,7 @@
   "description": "Dilution Planner, a Ligant Bench Tool: plans the volumes to combine to reach a stated concentration, entirely in the browser.",
   "type": "module",
   "private": true,
+  "license": "Apache-2.0",
   "scripts": {
     "dev": "vite --port 5173",
     "build": "vite build",

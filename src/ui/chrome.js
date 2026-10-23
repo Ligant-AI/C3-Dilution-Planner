@@ -1,9 +1,10 @@
 import { renderHeader as suiteHeader, renderFooter as suiteFooter, markSvg } from '@ligant/bench-chrome';
 import { CONFIG } from '../config.js';
 import { escapeHtml as esc } from './page-content.js';
+import { SEO } from './seo.js';
 const RESEARCH_USE = 'Research use only. Not qualified for GxP decision-making.';
 export function renderHeader() {
-    return suiteHeader({ path: `/${CONFIG.slug}/`, title: CONFIG.toolTitle, description: CONFIG.tagline });
+    return suiteHeader({ path: `/${CONFIG.slug}/`, title: SEO.h1, description: SEO.lead });
 }
 function citation() {
     const tail = ` (v${CONFIG.version}) [Computer software]. ${CONFIG.legalEntity}. ${CONFIG.publicBase.replace('https://', '')}${CONFIG.slug}/`;

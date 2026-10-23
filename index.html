@@ -7,8 +7,8 @@
   
   <link rel="icon" id="favicon" href="data:,">
   <meta name="referrer" content="no-referrer">
-  <title>Ligant · Dilution Planner</title>
-  <meta name="description" content="Plan the volumes to combine to reach a target concentration, or an ordered series of them, from a stated stock, including any intermediate a step needs to be pipettable. A free, deterministic bench tool. Runs entirely in your browser.">
+  <title>Ligant · Dilution Planner: Serial Dilution Calculator</title>
+  <meta name="description" content="Free dilution planner: volumes for a target or a series, serial or independent. A transfer below your minimum gets one intermediate, or the plan is withheld.">
   <link rel="canonical" href="https://benchtools.ligant.ai/dilution-planner/">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#FAF7F2">
@@ -17,10 +17,10 @@
   <meta property="og:url" content="https://benchtools.ligant.ai/dilution-planner/">
   <meta property="og:site_name" content="Ligant Bench Tools">
   <meta property="og:title" content="Ligant · Dilution Planner">
-  <meta property="og:description" content="The volumes to combine for a dilution or a dilution series, with the volume basis, the route and whether the plan is preparable recorded. Free, deterministic, runs entirely in your browser.">
+  <meta property="og:description" content="Free dilution planner: volumes for a target or a series, serial or independent. A transfer below your minimum gets one intermediate, or the plan is withheld.">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Ligant · Dilution Planner">
-  <meta name="twitter:description" content="Dilution and serial dilution planning that records what the stated volume is the volume of. Free bench tool.">
+  <meta name="twitter:description" content="Free dilution planner: volumes for a target or a series, serial or independent. A transfer below your minimum gets one intermediate, or the plan is withheld.">
   <link rel="stylesheet" href="./src/tokens.css">
   <link rel="stylesheet" href="./styles.css">
 </head>
@@ -35,21 +35,6 @@
     <div class="layout">
     <div class="stack">
       <form id="plan-form" class="stack" autocomplete="off" novalidate>
-
-        <section class="panel" id="import-panel" hidden>
-          <div class="panel-head">
-            <div class="titles"><h2>Import from the Antibody Titration Planner or the Molarity Converter</h2></div>
-            <span class="optional">optional</span>
-          </div>
-          <div class="panel-body stack">
-            <div class="field">
-              <label for="import-text">Paste the result object (JSON) from the Antibody Titration Planner or the Molarity Converter</label>
-              <textarea id="import-text" rows="3" class="num" placeholder='{"tool":"C4", …}'></textarea>
-              <p class="help" id="import-status">Nothing is fetched; the object is read here and nowhere else. An Antibody Titration Planner series fixes the targets, the staining volume and the final-volume basis; a Molarity Converter value fixes the stock. Every imported flag is restated on the output.</p>
-              <label class="check" id="import-override-label" hidden><input type="checkbox" id="import-override"> replace imported declarations manually (the replacement is named on the output)</label>
-            </div>
-          </div>
-        </section>
 
         <section class="panel">
           <div class="panel-head">
@@ -248,6 +233,13 @@
           <div class="titles"><h2 id="about-heading">About this calculator</h2></div>
         </div>
         <div class="panel-body prose" id="page-content-body"></div>
+      </section>
+
+      <section class="panel" id="faq" aria-labelledby="faq-heading">
+        <div class="panel-head">
+          <div class="titles"><h2 id="faq-heading">Questions and answers</h2></div>
+        </div>
+        <div class="panel-body prose" id="faq-body"></div>
       </section>
     </div>
 

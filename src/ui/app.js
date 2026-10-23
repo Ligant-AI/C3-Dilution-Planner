@@ -9,6 +9,7 @@ import { parseSharedObject } from '../import/shared-import.js';
 import '@ligant/bench-chrome/chrome.css';
 import { bindCopy, markDataUri } from '@ligant/bench-chrome';
 import { renderHeader, renderFooter, renderDisclaimer, renderColophon } from './chrome.js';
+import { faqHtml } from './seo.js';
 const $ = (id) => document.getElementById(id);
 function fillUnits(select, units, preferred, { unselected = false } = {}) {
     select.innerHTML = '';
@@ -148,7 +149,12 @@ function currentSnapshot(input) {
     };
 }
 function syncImport() {
-    const text = $('import-text').value.trim();
+    const field = $('import-text');
+    if (!field) {
+        importState = null;
+        return;
+    }
+    const text = field.value.trim();
     const status = $('import-status');
     if (!text) {
         if (importState) {
@@ -230,7 +236,6 @@ function compute() {
     $('notebook-text').value = noPlan ? '' : notebookText(r);
 }
 function init() {
-    document.title = `${CONFIG.publisher} · ${CONFIG.toolTitle}`;
     $('site-header').innerHTML = renderHeader();
     $('site-footer').innerHTML = renderFooter();
     $('disclaimer').innerHTML = renderDisclaimer();
@@ -238,6 +243,7 @@ function init() {
     $('favicon').href = markDataUri();
     bindCopy($('site-footer'));
     $('page-content-body').innerHTML = renderPageContent(CONFIG);
+    $('faq-body').innerHTML = faqHtml();
     fillUnits($('stock-unit'), CONCENTRATION_UNITS, 'µg/mL', { unselected: true });
     fillUnits($('target-unit'), CONCENTRATION_UNITS, 'µg/mL', { unselected: true });
     for (const id of ['stock-available-unit', 'volume-unit', 'min-unit', 'max-unit', 'capacity-unit'])
